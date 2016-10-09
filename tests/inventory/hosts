@@ -1,0 +1,4 @@
+ubuntu-test ansible_host=104.131.143.114
+fedora-test ansible_host=104.131.150.98
+debian-test ansible_host=192.241.207.76
+

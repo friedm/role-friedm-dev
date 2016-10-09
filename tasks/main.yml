@@ -1,0 +1,53 @@
+---
+- name: 'install packages'
+  package: name={{to_install}} state=latest
+- name: 'install apt packages'
+  package: name={{to_install_apt}} state=latest
+  when: ansible_os_family == 'Debian'
+- name: 'install yum packages'
+  package: name={{to_install_yum}} state=latest
+  when: ansible_os_family == 'RedHat'
+- name: 'create development user'
+  user: 
+   name={{username}} 
+   createhome=yes
+   password={{password_hash}}
+   shell=/bin/bash 
+   append=yes
+   generate_ssh_key=yes 
+   ssh_key_bits=4096 
+   ssh_key_file=.ssh/id_rsa
+- name: 'add user to sudo group'
+  user: name={{username}} groups=sudo append=yes
+  when: ansible_os_family == 'Debian'
+- name: 'add user to wheel group'
+  user: name={{username}} groups=wheel append=yes
+  when: ansible_os_family == 'RedHat'
+- name: 'authorize public key for new user'
+  become: yes
+  become_user: "{{username}}"
+  copy: 
+    src=~/.ssh/id_rsa.pub 
+    dest=.ssh/authorized_keys 
+    mode=0600
+- name: 'clone dotfiles'
+  become: yes
+  become_user: "{{username}}"
+  git: repo={{dotfiles_repo}} dest=~/.dotfiles force=yes update=yes
+- name: 'install dotfiles'
+  become: yes
+  become_user: "{{username}}"
+  shell: "{{dotfiles_install}}"
+- name: 'get rustup.rs installer'
+  become: yes
+  become_user: "{{username}}"
+  get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/install_rustup.sh
+  when: '"rust" in install'
+- name: 'install rustup.rs'
+  become: yes
+  become_user: "{{username}}"
+  shell: 'sh /tmp/install_rustup.sh -y'
+  when: '"rust" in install'
+ 

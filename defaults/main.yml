@@ -1,0 +1,33 @@
+---
+username: friedm
+install: []
+to_install:
+  - sudo
+  - git
+  - vim
+  - tmux
+  - npm
+  - nodejs
+  - python-virtualenv
+  - python-pip
+  - python3
+  - wget
+  - curl
+to_install_apt:
+  - python-simplejson
+  - python-selinux 
+  - libssl-dev
+  - build-essential
+  - silversearcher-ag
+to_install_yum:
+  - python2
+  - libselinux-python
+  - make
+  - automake
+  - gcc
+  - gcc-c++
+  - the_silver_searcher
+dotfiles_repo: "https://github.com/friedm/dotfiles.git"
+dotfiles_dst: "$HOME/.dotfiles"
+dotfiles_install: 'cd .dotfiles && ./setup_git_prompt.sh && yes | ./link_rc_files.sh && yes | ./setup_vim.sh'
+
