@@ -1,0 +1,13 @@
+---
+- hosts: all
+  connection: ssh
+  gather_facts: no
+  remote_user: root
+  tasks:
+    - name: 'install python2 with yum'
+      raw: yum -y install python2 python2-dnf libselinux-python
+      ignore_errors: yes
+    - name: 'install python2 with apt'
+      raw: apt-get -y install python-simplejson python-selinux
+      ignore_errors: yes
+

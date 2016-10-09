@@ -45,9 +45,11 @@
     url: https://sh.rustup.rs
     dest: /tmp/install_rustup.sh
   when: '"rust" in install'
+  tags: rust
 - name: 'install rustup.rs'
   become: yes
   become_user: "{{username}}"
   shell: 'sh /tmp/install_rustup.sh -y'
   when: '"rust" in install'
+  tags: rust
  
