@@ -25,6 +25,7 @@ env:
   - ANSIBLE_CONFIG=.travis-ansible.cfg
 
 script:
+  - pwd
   # Basic role syntax check
   - ansible-playbook tests/test.yml tests/python2.yml --syntax-check
 
